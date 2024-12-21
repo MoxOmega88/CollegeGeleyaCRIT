@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cafeteria Queue System</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      text-align: center;
+    }
+    .menu {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin: 20px;
+    }
+    .menu-item {
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 10px;
+      text-align: center;
+      width: 200px;
+    }
+    .menu-item img {
+      width: 180px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+    form {
+      margin: 20px auto;
+      width: 80%;
+      max-width: 500px;
+    }
+    table {
+      width: 80%;
+      margin: 20px auto;
+      border-collapse: collapse;
+    }
+    table, th, td {
+      border: 1px solid #ccc;
+      text-align: center;
+      padding: 10px;
+    }
+    footer {
+      background-color: #147e1c;
+      color: white;
+      text-align: center;
+      padding: 20px 10px;
+    }
+    footer .social-icons {
+      margin: 10px 0;
+    }
+    footer .social-icons img {
+      width: 30px;
+      height: 30px;
+      margin: 0 5px;
+    }
+    footer p {
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Cafeteria Queue System</h1>
+  </header>
+
+  <section class="menu">
+    <div class="menu-item" id="idli">
+      <img src="https://i.pinimg.com/originals/67/aa/5b/67aa5bbfd7d2556e074274b27d6ce7c5.jpg" alt="idli">
+      <h3>Idli-Vada</h3>
+      <p>Price: 45rs</p>
+    </div>
+    <div class="menu-item" id="dosa">
+      <img src="https://tse2.mm.bing.net/th?id=OIP.OlB0ryP2YEmpXPo1fLC_vwHaFN&pid=Api&P=0&h=220" alt="dosa">
+      <h3>Masala Dosa</h3>
+      <p>Price: 45rs</p>
+    </div>
+    <div class="menu-item" id="rice">
+      <img src="https://smithakalluraya.com/wp-content/uploads/2022/01/avarekalu-bath.jpg" alt="rice">
+      <h3>Rice Bath</h3>
+      <p>Price: 35rs</p>
+    </div>
+    <div class="menu-item" id="meals">
+      <img src="https://media.istockphoto.com/id/481149282/photo/south-indian-food.jpg?s=612x612&w=0&k=20&c=w43naq0743XDvzCi5FW_ROvzw4_KaCkuam16sfy3hTc=" alt="meals">
+      <h3>Meals</h3>
+      <p>Price: 45rs</p>
+    </div>
+    <div class="menu-item" id="ricesambar">
+      <img src="https://as2.ftcdn.net/v2/jpg/04/37/96/83/500_F_437968331_iJsxlNRRjvHYxCexKrO4ewu5I1eP8rNg.jpg" alt="ricesambar">
+      <h3>Sambar Rice</h3>
+      <p>Price: 35rs</p>
+    </div>
+  </section>
+
+  <section>
+    <form id="orderForm">
+      <h2>Place Your Order</h2>
+      <label for="name">Your Name (optional):</label>
+      <input type="text" id="name" name="name" placeholder="Enter your name">
+      <br><br>
+      <label for="items">Select Item:</label>
+      <select id="items" name="items">
+        <option value="idli">Idli-Vada</option>
+        <option value="dosa">Masala Dosa</option>
+        <option value="riceb">Rice Bath</option>
+        <option value="meals">Meals</option>
+        <option value="rices">Sambar Rice</option>
+      </select>
+      <br><br>
+      <label for="quantity">Quantity:</label>
+      <input type="number" id="quantity" name="quantity" min="1" value="1">
+      <br><br>
+      <button type="button" onclick="submitOrder()">Submit Order</button>
+    </form>
+  </section>
+
+  <section>
+    <h2>Queue Status</h2>
+    <table id="queueTable">
+      <thead>
+        <tr>
+          <th>Order ID</th>
+          <th>Name</th>
+          <th>Item</th>
+          <th>Quantity</th>
+          <th>Status</th>
+          <th>Total Price</th>
+        </tr>
+      </thead>
+      <tbody id="queueBody">
+        <!-- Dynamic Orders -->
+      </tbody>
+    </table>
+  </section>
+
+  <footer>
+    <div class="social-icons">
+      <img src="https://img.icons8.com/ios-filled/50/ffffff/facebook-new.png" alt="Facebook">
+      <img src="https://img.icons8.com/ios-filled/50/ffffff/twitter.png" alt="Twitter">
+      <img src="https://img.icons8.com/ios-filled/50/ffffff/instagram-new.png" alt="Instagram">
+    </div>
+    <p>&copy; 2024 Cafeteria Queue System</p>
+    <p>Contact us: support@cafeteriaqueue.com</p>
+  </footer>
+
+  <script>
+    let orderId = 1;
+    const prepTimes = {
+      idli: 3, 
+      dosa: 10,
+      riceb: 3,
+      meals: 5,
+      rices: 3
+    };
+    const prices = {
+      idli: 45,
+      dosa: 45,
+      riceb: 35,
+      meals: 45,
+      rices: 35
+    };
+
+    function submitOrder() {
+      const name = document.getElementById('name').value || 'Anonymous';
+      const item = document.getElementById('items').value;
+      const quantity = parseInt(document.getElementById('quantity').value);
+
+      const totalPrice = prices[item] * quantity;
+      const prepTime = prepTimes[item] * quantity;
+      const tableBody = document.getElementById('queueBody');
+
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${orderId}</td>
+        <td>${name}</td>
+        <td>${item}</td>
+        <td>${quantity}</td>
+        <td>Preparing...</td>
+        <td>${totalPrice} rs</td>
+      `;
+      tableBody.appendChild(row);
+
+      setTimeout(() => {
+        row.cells[4].innerText = 'Ready for Pickup';
+        alert(`Order #${orderId-1} for ${name} is ready!`);
+      }, prepTime * 1000);
+
+      orderId++;
+    }
+  </script>
+</body>
+</html>

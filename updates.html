@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Announcements</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #e5e5e5;
+            text-align: center;
+        }
+
+        h1 {
+            padding: 20px;
+            background-color: #b81d24;
+            color: #fff;
+            margin-bottom: 20px;
+            font-size: 2.5rem;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .column {
+            background-color: #1c1c1c;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+            padding: 30px;
+            width: 300px;
+            max-width: 100%;
+        }
+
+        .column h2 {
+            background-color: #b81d24;
+            color: #fff;
+            padding: 10px 0;
+            border-radius: 5px;
+            font-size: 1.5rem;
+        }
+
+        .column ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .column ul li {
+            background-color: #272727;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s, background-color 0.3s;
+        }
+
+        .column ul li:hover {
+            background-color: #333;
+            transform: scale(1.02);
+        }
+
+        .read-more {
+            cursor: pointer;
+            color: #b81d24;
+            text-decoration: underline;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .read-more:hover {
+            color: #f05454;
+        }
+
+        #popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #1c1c1c;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+            z-index: 1000;
+            width: 90%;
+            max-width: 400px;
+            text-align: left;
+        }
+
+        #popup h3 {
+            color: #fff;
+            margin-top: 0;
+            font-size: 1.5rem;
+        }
+
+        #popup p {
+            color: #e5e5e5;
+            font-size: 1rem;
+        }
+
+        #popup button {
+            margin-top: 20px;
+            background-color: #b81d24;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+
+        #popup button:hover {
+            background-color: #f05454;
+        }
+
+        #overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 999;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .column {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Never miss out on any important updates...</h1>
+    <div class="container">
+        <div class="column">
+            <h2>3-B</h2>
+            <ul>
+                <li>
+                    DSA quiz on 26/12/24...
+                    <span class="read-more" data-details="Topics: Unit-2 and Unit-3 <br>Date: 26/12/2024<br>Venue: Room 404, LHC Block<br>Instructions: Bring data sheets.<br>Marks: 10">Read more</span>
+                </li>
+                <li>
+                    UHV assignment due on 31/12/24...
+                    <span class="read-more" data-details="Topic: Survey<br>Submission Date: 31/12/2024<br>Instructions: Submit in PDF format on the given link.<br>Marks: 10">Read more</span>
+                </li>
+            </ul>
+        </div>
+        <div class="column">
+            <h2>ISE</h2>
+            <ul>
+                <li>
+                    GITHUB webinar on 27/12/2024...
+                    <span class="read-more" data-details="Topics: Git Basics, Collaboration by MSRIT Alumni<br>Date: 27/12/2024<br>Time: 10:00 a.m.<br>Venue: Online (Zoom link will be shared)<br>Instructions: Install Git beforehand.<br>Duration: 2 hours">Read more</span>
+                </li>
+            </ul>
+        </div>
+        <div class="column">
+            <h2>General</h2>
+            <ul>
+                <li>
+                    College closed on 25/12/2024...
+                    <span class="read-more" data-details="Occasion: Christmas<br>Instructions: Classes resume on 26/12/2024.">Read more</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div id="overlay"></div>
+    <div id="popup">
+        <h3>Details</h3>
+        <p id="popup-content"></p>
+        <button id="close-popup">Close</button>
+    </div>
+    <script>
+        const readMoreButtons = document.querySelectorAll('.read-more');
+        const popup = document.getElementById('popup');
+        const overlay = document.getElementById('overlay');
+        const popupContent = document.getElementById('popup-content');
+        const closePopup = document.getElementById('close-popup');
+
+        readMoreButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const details = button.getAttribute('data-details');
+                popupContent.innerHTML = details;
+                popup.style.display = 'block';
+                overlay.style.display = 'block';
+            });
+        });
+
+        closePopup.addEventListener('click', () => {
+            popup.style.display = 'none';
+            overlay.style.display = 'none';
+        });
+
+        overlay.addEventListener('click', () => {
+            popup.style.display = 'none';
+            overlay.style.display = 'none';
+        });
+    </script>
+</body>
+</html>
