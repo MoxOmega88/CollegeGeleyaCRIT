@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Your Role</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #141414; /* Netflix dark theme */
+            color: #e5e5e5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        /* Container for the two buttons */
+        .role-container {
+            display: flex;
+            justify-content: space-between;
+            width: 70%;
+            max-width: 800px;
+            gap: 20px;
+        }
+
+        .role-box {
+            background-color: rgba(0, 0, 0, 0.8);
+            border-radius: 10px;
+            padding: 40px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .role-box:hover {
+            transform: scale(1.05); /* Levitation effect */
+        }
+
+        .role-box h3 {
+            font-size: 2rem;
+            color: #e50914; /* Netflix red */
+            margin-bottom: 15px;
+        }
+
+        .role-box p {
+            font-size: 1rem;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        .role-box a {
+            display: inline-block;
+            background-color: #e50914;
+            color: white;
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            transition: background-color 0.3s;
+        }
+
+        .role-box a:hover {
+            background-color: #f05454;
+        }
+
+        @media (max-width: 768px) {
+            .role-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="role-container">
+        <!-- Host Option -->
+        <div class="role-box">
+            <h3>HOST</h3>
+            <p>Make changes to announcements and update the campus.</p>
+            <a href="HOST.html">Go to Host Dashboard</a> <!-- Link to HOST.html -->
+        </div>
+
+        <!-- User Option -->
+        <div class="role-box">
+            <h3>USER</h3>
+            <p>Check out the latest announcements made by hosts.</p>
+            <a href="updates.html">View Updates</a> <!-- Link to updates.html -->
+        </div>
+    </div>
+
+</body>
+</html>
