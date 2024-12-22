@@ -1,0 +1,181 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+// Define maximum limits for users and tickets
+#define MAX_USERS 100
+#define MAX_TICKETS 100
+
+// User and Ticket Structures
+typedef struct {
+    char username[50];
+    char password[50];
+} User;
+
+typedef struct {
+    int ticket_id;
+    char user[50];
+    char bus_number[20];
+    char seat_number[10];
+} Ticket;
+
+// Global arrays for users and tickets
+User users[MAX_USERS];
+Ticket tickets[MAX_TICKETS];
+
+// Counters to keep track of registered users and tickets
+int user_count = 0;
+int ticket_count = 0;
+
+// Function to register a new user
+void register_user() {
+    printf("\n--- Register ---\n");
+    char username[50];
+    char password[50];
+
+    printf("Enter a new username: ");
+    scanf("%s", username);
+
+    // Check if the username already exists
+    for (int i = 0; i < user_count; i++) {
+        if (strcmp(users[i].username, username) == 0) {
+            printf("Username already exists. Try logging in or choose a different username.\n");
+            return;
+        }
+    }
+
+    printf("Enter a password: ");
+    scanf("%s", password);
+
+    // Register new user
+    strcpy(users[user_count].username, username);
+    strcpy(users[user_count].password, password);
+    user_count++;
+    printf("Registration successful! You can now log in.\n");
+}
+
+// Function to log in an existing user
+int login(char *logged_in_user) {
+    printf("\n--- Login ---\n");
+    char username[50];
+    char password[50];
+
+    printf("Username: ");
+    scanf("%s", username);
+    printf("Password: ");
+    scanf("%s", password);
+
+    // Validate username and password
+    for (int i = 0; i < user_count; i++) {
+        if (strcmp(users[i].username, username) == 0 && strcmp(users[i].password, password) == 0) {
+            strcpy(logged_in_user, username);
+            printf("Login successful!\n");
+            return 1;
+        }
+    }
+
+    printf("Invalid username or password.\n");
+    return 0;
+}
+
+// Function to book a ticket
+void book_ticket(char *username) {
+    printf("\n--- Book a Ticket ---\n");
+    char bus_number[20];
+    char seat_number[10];
+
+    printf("Enter bus number: ");
+    scanf("%s", bus_number);
+    printf("Enter seat number: ");
+    scanf("%s", seat_number);
+
+    tickets[ticket_count].ticket_id = ticket_count + 1;
+    strcpy(tickets[ticket_count].user, username);
+    strcpy(tickets[ticket_count].bus_number, bus_number);
+    strcpy(tickets[ticket_count].seat_number, seat_number);
+
+    printf("Ticket booked successfully! Your Ticket ID is %d.\n", tickets[ticket_count].ticket_id);
+    ticket_count++;
+}
+
+// Function to cancel a ticket
+void cancel_ticket(char *username) {
+    printf("\n--- Cancel a Ticket ---\n");
+    int ticket_id;
+
+    printf("Enter your Ticket ID to cancel: ");
+    scanf("%d", &ticket_id);
+
+    for (int i = 0; i < ticket_count; i++) {
+        if (tickets[i].ticket_id == ticket_id && strcmp(tickets[i].user, username) == 0) {
+            for (int j = i; j < ticket_count - 1; j++) {
+                tickets[j] = tickets[j + 1];
+            }
+            ticket_count--;
+            printf("Ticket canceled successfully!\n");
+            return;
+        }
+    }
+
+    printf("Invalid Ticket ID or you don't have permission to cancel this ticket.\n");
+}
+
+// Function to check ticket status
+void check_ticket_status(char *username) {
+    printf("\n--- Ticket Status ---\n");
+    int found = 0;
+
+    for (int i = 0; i < ticket_count; i++) {
+        if (strcmp(tickets[i].user, username) == 0) {
+            printf("Ticket ID: %d, Bus Number: %s, Seat Number: %s\n",
+                   tickets[i].ticket_id, tickets[i].bus_number, tickets[i].seat_number);
+            found = 1;
+        }
+    }
+
+    if (!found) {
+        printf("No tickets found.\n");
+    }
+}
+
+// Main program loop
+int main() {
+    char choice;
+    char logged_in_user[50];
+
+    while (1) {
+        printf("\n1. Register\n2. Login\n3. Exit\nEnter your choice: ");
+        scanf(" %c", &choice);
+
+        if (choice == '1') {
+            register_user();
+        } else if (choice == '2') {
+            if (login(logged_in_user)) {
+                while (1) {
+                    printf("\n1. Book a Ticket\n2. Cancel a Ticket\n3. Check Ticket Status\n4. Logout\nEnter your choice: ");
+                    scanf(" %c", &choice);
+
+                    if (choice == '1') {
+                        book_ticket(logged_in_user);
+                    } else if (choice == '2') {
+                        cancel_ticket(logged_in_user);
+                    } else if (choice == '3') {
+                        check_ticket_status(logged_in_user);
+                    } else if (choice == '4') {
+                        printf("Logging out...\n");
+                        break;
+                    } else {
+                        printf("Invalid option. Try again.\n");
+                    }
+                }
+            }
+        } else if (choice == '3') {
+            printf("Exiting the system.\n");
+            break;
+        } else {
+            printf("Invalid option. Try again.\n");
+        }
+    }
+
+    return 0;
+}
