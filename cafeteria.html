@@ -6,15 +6,22 @@
   <title>Cafeteria Queue System</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Arial', sans-serif;
       margin: 0;
       padding: 0;
+      background-color: #141414;
+      color: #ffffff;
     }
     header {
-      background-color: #4CAF50;
+      background-color: #e50914;
       color: white;
       padding: 10px 20px;
       text-align: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+    }
+    header h1 {
+      margin: 0;
+      font-size: 24px;
     }
     .menu {
       display: flex;
@@ -24,11 +31,17 @@
       margin: 20px;
     }
     .menu-item {
-      border: 1px solid #ccc;
+      border: 1px solid #333;
       border-radius: 8px;
+      background-color: #202020;
       padding: 10px;
       text-align: center;
       width: 200px;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .menu-item:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.8);
     }
     .menu-item img {
       width: 180px;
@@ -40,22 +53,76 @@
       margin: 20px auto;
       width: 80%;
       max-width: 500px;
+      background-color: #202020;
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    form:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 12px 24px rgba(229, 9, 20, 0.5);
+    }
+    form h2 {
+      text-align: center;
+      color: #e50914;
+      margin-bottom: 20px;
+    }
+    form label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: #bbb;
+    }
+    form input, form select, form button {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #333;
+      border-radius: 4px;
+      background-color: #333;
+      color: #ffffff;
+      box-sizing: border-box;
+    }
+    form input:focus, form select:focus, form button:focus {
+      border-color: #e50914;
+      outline: none;
+    }
+    form button {
+      background-color: #e50914;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+    form button:hover {
+      background-color: #ff0a16;
+      transform: scale(1.05);
     }
     table {
       width: 80%;
       margin: 20px auto;
       border-collapse: collapse;
+      background-color: #202020;
+      color: #ffffff;
     }
     table, th, td {
-      border: 1px solid #ccc;
+      border: 1px solid #333;
       text-align: center;
       padding: 10px;
     }
+    th {
+      background-color: #333;
+    }
+    td {
+      background-color: #141414;
+    }
     footer {
-      background-color: #147e1c;
+      background-color: #000000;
       color: white;
       text-align: center;
       padding: 20px 10px;
+      box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.5);
     }
     footer .social-icons {
       margin: 10px 0;
@@ -64,9 +131,15 @@
       width: 30px;
       height: 30px;
       margin: 0 5px;
+      filter: invert(1);
+      transition: transform 0.3s;
+    }
+    footer .social-icons img:hover {
+      transform: scale(1.2);
     }
     footer p {
       margin: 5px 0;
+      color: #777;
     }
   </style>
 </head>
@@ -91,15 +164,20 @@
       <h3>Rice Bath</h3>
       <p>Price: 35rs</p>
     </div>
-    <div class="menu-item" id="meals">
-      <img src="https://media.istockphoto.com/id/481149282/photo/south-indian-food.jpg?s=612x612&w=0&k=20&c=w43naq0743XDvzCi5FW_ROvzw4_KaCkuam16sfy3hTc=" alt="meals">
-      <h3>Meals</h3>
-      <p>Price: 45rs</p>
+    <div class="menu-item" id="chapati">
+      <img src="https://imgs.search.brave.com/jlc8S11MVk84gTrWS6jHCH1pUq4PBbE6iDySKVwziws/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9waXBp/bmdwb3RjdXJyeS5j/b20vd3AtY29udGVu/dC91cGxvYWRzLzIw/MTkvMDEvUm90aS1D/aGFwYXRpLVdob2xl/LVdoZWF0LUluZGlh/bi1GbGF0YnJlYWQt/NS5qcGc" alt="chapati">
+      <h3>Chapati</h3>
+      <p>Price: 30rs</p>
     </div>
-    <div class="menu-item" id="ricesambar">
-      <img src="https://as2.ftcdn.net/v2/jpg/04/37/96/83/500_F_437968331_iJsxlNRRjvHYxCexKrO4ewu5I1eP8rNg.jpg" alt="ricesambar">
-      <h3>Sambar Rice</h3>
+    <div class="menu-item" id="parota">
+      <img src="https://imgs.search.brave.com/HMJGOZXoC6sHj7WMljenqKTc0mVtGbD_NZv0LQY7ttc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9mYXJt/OS5zdGF0aWNmbGlj/a3IuY29tLzg1ODYv/MTYwMjMyMTQzNzNf/OTA1NTJiNjRmNl9v/LmpwZw" alt="parota">
+      <h3>Parota</h3>
       <p>Price: 35rs</p>
+    </div>
+    <div class="menu-item" id="setdosa">
+      <img src="https://imgs.search.brave.com/c6c22w_Bpa1_wcJ3-pT8jD23FtSMNPkayrQkL9m9wG0/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9ibG9n/Z2VyLmdvb2dsZXVz/ZXJjb250ZW50LmNv/bS9pbWcvYi9SMjl2/WjJ4bC9BVnZYc0Vo/S1VRckVFYkdBOE8t/Um5jUXhZd2ZRbFJE/UkZZd0FzUDROcnJL/eEd3UFd4V0kyalV5/QnFwZ2x0ZS1ZV3hR/anY5UTZzdjJCYkVs/MkFZLW9uYjZwZXg2/bEt0eUxRRW5Pa1BV/dm5iZVlxelhvUnFf/bllWenZELWp1SlN5/aTNiNmtMWE1OY1pG/VWZSdjhEclEvczE2/MDAwL3Nwb25nZStk/b3NhLmpwZw" alt="set dosa">
+      <h3>Set Dosa</h3>
+      <p>Price: 40rs</p>
     </div>
   </section>
 
@@ -108,19 +186,17 @@
       <h2>Place Your Order</h2>
       <label for="name">Your Name (optional):</label>
       <input type="text" id="name" name="name" placeholder="Enter your name">
-      <br><br>
       <label for="items">Select Item:</label>
       <select id="items" name="items">
         <option value="idli">Idli-Vada</option>
         <option value="dosa">Masala Dosa</option>
         <option value="riceb">Rice Bath</option>
-        <option value="meals">Meals</option>
-        <option value="rices">Sambar Rice</option>
+        <option value="chapati">Chapati</option>
+        <option value="parota">Parota</option>
+        <option value="setdosa">Set Dosa</option>
       </select>
-      <br><br>
       <label for="quantity">Quantity:</label>
       <input type="number" id="quantity" name="quantity" min="1" value="1">
-      <br><br>
       <button type="button" onclick="submitOrder()">Submit Order</button>
     </form>
   </section>
@@ -160,15 +236,17 @@
       idli: 3, 
       dosa: 10,
       riceb: 3,
-      meals: 5,
-      rices: 3
+      chapati: 5,
+      parota: 7,
+      setdosa: 8
     };
     const prices = {
       idli: 45,
       dosa: 45,
       riceb: 35,
-      meals: 45,
-      rices: 35
+      chapati: 30,
+      parota: 35,
+      setdosa: 40
     };
 
     function submitOrder() {
@@ -193,7 +271,7 @@
 
       setTimeout(() => {
         row.cells[4].innerText = 'Ready for Pickup';
-        alert(`Order #${orderId-1} for ${name} is ready!`);
+        alert(`Order #${orderId} for ${name} is ready!`);
       }, prepTime * 1000);
 
       orderId++;
