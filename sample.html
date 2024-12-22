@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>College Geleya</title>
-    <!-- Favicon Link -->
     <link rel="icon" href="favicon.png" type="image/x-icon">
-    
     <style>
         * {
             margin: 0;
@@ -37,8 +35,7 @@
         header h1 {
             font-size: 4rem;
             font-weight: bold;
-            letter-spacing: 2px;
-            background-color: #bbb;
+            letter-spacing: 2px;background-color: #bbb;
             background: linear-gradient(45deg, #e50914, #ff6700);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -238,7 +235,7 @@
                 <p>Stay updated with the latest campus news and events.</p>
             </div>
         </div>
-        <div class="card" onclick="window.location.href='lostfound.html'">
+        <div class="card" onclick="window.location.href='lost-and-found.html'">
             <img src="https://media.istockphoto.com/id/477273563/vector/lost-found-box.jpg?s=612x612&w=0&k=20&c=D63_IrCalWqRLpYCnBA5b5QTfhxwbSggkxLiw7vQGGs=" alt="Lost and Found">
             <div class="card-content">
                 <h3>Lost and Found</h3>
@@ -260,3 +257,109 @@
 
 </body>
 </html>
+<style>
+    
+    @media (max-width: 768px) {
+        .navbar {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .navbar .links {
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .search-bar {
+            margin-top: 10px;
+        }
+
+        #toggle-mode {
+            align-self: flex-end;
+            margin-top: 10px;
+            padding: 6px 10px;
+            font-size: 12px;
+        }
+    }
+</style>
+
+<script>
+    
+    function initializeToggle() {
+        const isDarkMode = localStorage.getItem('darkMode') === 'true';
+        if (isDarkMode) {
+            document.body.classList.add('dark-mode');
+        }
+    }
+
+
+    function toggleMode() {
+        const isDarkMode = document.body.classList.toggle('dark-mode');
+        localStorage.setItem('darkMode', isDarkMode); 
+    }
+    const navbar = document.querySelector('.navbar');
+    const toggleButton = document.createElement('button');
+    toggleButton.id = 'toggle-mode';
+    toggleButton.textContent = 'Toggle Mode';
+    toggleButton.style.cssText = `
+        padding: 8px 12px;
+        border: none;
+        background: rgb(179, 20, 20);
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+    `;
+    toggleButton.addEventListener('click', toggleMode);
+    navbar.appendChild(toggleButton);
+
+    const style = document.createElement('style');
+    style.textContent = `
+        :root {
+            --bg-color: #141414;
+            --text-color: #fff;
+            --navbar-bg: rgba(0, 0, 0, 0.8);
+            --card-bg: #333;
+            --card-text: #ccc;
+            --button-bg: rgb(179, 20, 20);
+            --button-hover-bg: rgb(220, 20, 20);
+        }
+
+        body.dark-mode {
+            --bg-color: #f9f9f9;
+            --text-color: #000;
+            --navbar-bg: rgba(255, 255, 255, 0.9);
+            --card-bg: #fff;
+            --card-text: #444;
+            --button-bg: #e50914;
+            --button-hover-bg: #c20811;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        .navbar {
+            background-color: var(--navbar-bg);
+        }
+
+        .card {
+            background-color: var(--card-bg);
+        }
+
+        .card-content p {
+            color: var(--card-text);
+        }
+
+        .search-bar button {
+            background-color: var(--button-bg);
+        }
+
+        .search-bar button:hover {
+            background-color: var(--button-hover-bg);
+        }
+    `;
+    document.head.appendChild(style);
+
+    initializeToggle();
+</script>
